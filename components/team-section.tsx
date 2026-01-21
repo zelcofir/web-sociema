@@ -72,13 +72,21 @@ export function TeamSection() {
           <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {teamMembers.map((member) => (
               <Card key={member.id} className="overflow-hidden border-0 bg-card shadow-sm">
-                <div className="aspect-square bg-primary/10">
-                  <div className="flex h-full items-center justify-center">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
-                      {member.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
-                    </div>
+                <div className="aspect-square bg-primary/10 relative overflow-hidden">
+                    {member.image_url ? (
+                      <img 
+                        src={member.image_url} 
+                        alt={member.name} 
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
+                          {member.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
                 <CardContent className="p-3 text-center">
                   <h3 className="mb-0.5 text-sm font-semibold text-card-foreground line-clamp-1">{member.name}</h3>
                   <p className="mb-2 text-xs text-muted-foreground line-clamp-1">{member.role}</p>

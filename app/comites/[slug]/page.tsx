@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button"
 import { Target, Users, ArrowLeft, Calendar, MapPin, Facebook, Instagram, Mail } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { supabase } from "@/lib/supabase" // Importamos supabase
 
 const allCommittees = {
   // IFMSA Committees
   scora: {
     name: "SCORA",
     fullName: "Standing Committee on Reproductive Health including AIDS",
+    color: "bg-red-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCORA es el comité enfocado en la salud sexual y reproductiva, incluyendo la prevención del VIH/SIDA y otras infecciones de transmisión sexual. Trabajamos para educar y sensibilizar a la comunidad estudiantil y general sobre estos temas cruciales para la salud pública.",
     objectives: "Promover la salud sexual y reproductiva, incluyendo la prevención del VIH/SIDA y otras ITS, mediante educación y sensibilización.",
@@ -32,6 +35,8 @@ const allCommittees = {
   scorp: {
     name: "SCORP",
     fullName: "Standing Committee on Human Rights and Peace",
+    color: "bg-green-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCORP trabaja para promover la paz, los derechos humanos y la asistencia humanitaria. Buscamos sensibilizar a los estudiantes de medicina sobre su rol social y su responsabilidad con las poblaciones más vulnerables.",
     objectives: "Promover la paz, los derechos humanos y la asistencia humanitaria, sensibilizando a los estudiantes de medicina sobre su rol social.",
@@ -54,6 +59,8 @@ const allCommittees = {
   scoph: {
     name: "SCOPH",
     fullName: "Standing Committee on Public Health",
+    color: "bg-orange-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCOPH se dedica a mejorar la salud pública mediante campañas de prevención, promoción de estilos de vida saludables y concientización sobre enfermedades prevalentes en nuestra comunidad.",
     objectives: "Mejorar la salud pública mediante campañas de prevención, promoción de estilos de vida saludables y concientización.",
@@ -76,6 +83,8 @@ const allCommittees = {
   scope: {
     name: "SCOPE",
     fullName: "Standing Committee on Professional Exchange",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCOPE facilita intercambios profesionales clínicos internacionales, permitiendo a los estudiantes enriquecer su formación médica a través de experiencias en diferentes sistemas de salud alrededor del mundo.",
     objectives: "Facilitar intercambios profesionales clínicos internacionales para enriquecer la formación médica de los estudiantes.",
@@ -98,6 +107,8 @@ const allCommittees = {
   score: {
     name: "SCORE",
     fullName: "Standing Committee on Research Exchange",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCORE promueve intercambios de investigación para desarrollar habilidades científicas y fomentar la colaboración internacional en proyectos de investigación médica.",
     objectives: "Promover intercambios de investigación para desarrollar habilidades científicas y colaboración internacional.",
@@ -120,6 +131,8 @@ const allCommittees = {
   scome: {
     name: "SCOME",
     fullName: "Standing Committee on Medical Education",
+    color: "bg-black-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "IFMSA",
     description: "SCOME trabaja para mejorar la educación médica mediante innovación pedagógica, capacitación docente y desarrollo curricular, buscando formar mejores profesionales de la salud.",
     objectives: "Mejorar la educación médica mediante innovación pedagógica, capacitación docente y desarrollo curricular.",
@@ -142,7 +155,9 @@ const allCommittees = {
   // SOCIMEP Committees
   cpa: {
     name: "CPA",
-    fullName: "Comité Permanente de Actividades",
+    fullName: "Comité Permanente Académico",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPA es responsable de planificar, organizar y ejecutar todas las actividades académicas, científicas y sociales de la sociedad, asegurando su calidad y relevancia.",
     objectives: "Planificar, organizar y ejecutar actividades académicas, científicas y sociales de la sociedad.",
@@ -164,7 +179,9 @@ const allCommittees = {
   },
   cpc: {
     name: "CPC",
-    fullName: "Comité Permanente de Capacitación",
+    fullName: "Comité Permanente Científico",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPC se encarga de brindar capacitación continua a los miembros en temas de investigación, liderazgo y habilidades blandas necesarias para su desarrollo profesional.",
     objectives: "Brindar capacitación continua a los miembros en temas de investigación, liderazgo y habilidades blandas.",
@@ -186,7 +203,9 @@ const allCommittees = {
   },
   cppc: {
     name: "CPPC",
-    fullName: "Comité Permanente de Proyección Comunitaria",
+    fullName: "Comité Permanente de Publicaciones Científicas",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPPC desarrolla actividades de proyección social que impactan positivamente en la comunidad, acercando los servicios de salud a las poblaciones más necesitadas.",
     objectives: "Desarrollar actividades de proyección social que impacten positivamente en la comunidad.",
@@ -209,6 +228,8 @@ const allCommittees = {
   cpdii: {
     name: "CPDII",
     fullName: "Comité Permanente de Difusión e Imagen Institucional",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPDII gestiona la comunicación y la imagen institucional de la sociedad científica, manejando las redes sociales y el diseño de material promocional.",
     objectives: "Gestionar la comunicación y la imagen institucional de la sociedad científica.",
@@ -230,7 +251,9 @@ const allCommittees = {
   },
   cprii: {
     name: "CPRII",
-    fullName: "Comité Permanente de Relaciones Interinstitucionales e Internacionales",
+    fullName: "Comité Permanente de Relaciones Interinstitucionales e Intercambios",
+    color: "bg-blue-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPRII establece y mantiene relaciones con otras instituciones nacionales e internacionales, gestionando convenios y representación institucional.",
     objectives: "Establecer y mantener relaciones con otras instituciones nacionales e internacionales.",
@@ -252,7 +275,9 @@ const allCommittees = {
   },
   cpais: {
     name: "CPAIS",
-    fullName: "Comité Permanente de Asesoría e Investigación en Salud",
+    fullName: "Comité Permanente de Atención Integral en Salud",
+    color: "bg-yellow-600", // Color distintivo
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
     organization: "SOCIMEP",
     description: "El CPAIS promueve y asesora proyectos de investigación en salud entre los miembros de la sociedad, brindando soporte metodológico y estadístico.",
     objectives: "Promover y asesorar proyectos de investigación en salud entre los miembros de la sociedad.",
@@ -282,29 +307,39 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
   const { slug } = await params
   const committee = allCommittees[slug as keyof typeof allCommittees]
 
-  if (!committee) {
-    notFound()
-  }
+  if (!committee) notFound()
+
+    // BUSCAMOS LOS DIRECTORES EN SUPABASE USANDO EL SLUG
+    const { data: directors } = await supabase
+      .from("committee_directors")
+      .select("*")
+      .eq("slug", slug)
 
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-primary py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <Link href="/comites" className="mb-6 inline-flex items-center gap-2 text-primary-foreground/80 transition-colors hover:text-primary-foreground">
-            <ArrowLeft className="h-4 w-4" />
-            Volver a Comités
+      
+      <section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
+        {/* Imagen de fondo con opacidad para que el texto sea legible */}
+        {committee.coverImage && (
+          <div 
+            className="absolute inset-0 z-0 opacity-30 bg-cover bg-center" 
+            style={{ backgroundImage: `url(${committee.coverImage})` }}
+          />
+        )}
+        
+        <div className="container relative z-10 mx-auto px-4">
+          <Link href="/comites" className="mb-6 inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white">
+            <ArrowLeft className="h-4 w-4" /> Volver a Comités
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <Badge className="bg-secondary text-secondary-foreground">{committee.organization}</Badge>
-            <Badge variant="outline" className="border-primary-foreground/30 text-primary-foreground">
-              {committee.name}
-            </Badge>
+            <Badge className="bg-white/20 text-white border-none backdrop-blur-md">{committee.organization}</Badge>
+            <Badge variant="outline" className="border-white/30 text-white">{committee.name}</Badge>
           </div>
-          <h1 className="mt-4 text-3xl font-bold text-primary-foreground md:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-3xl font-bold text-white md:text-5xl lg:text-6xl max-w-4xl leading-tight">
             {committee.fullName}
           </h1>
-          <p className="mt-4 max-w-3xl text-lg text-primary-foreground/90">
+          <p className="mt-6 max-w-2xl text-lg text-white/90 leading-relaxed">
             {committee.description}
           </p>
         </div>
@@ -384,46 +419,37 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
               </Card>
             </div>
 
-            {/* Sidebar - Director */}
-            <div className="lg:col-span-1">
-              <Card className="sticky top-24 border-2 border-border bg-card">
-                <CardHeader className="text-center">
-                  <CardDescription>Director del Comité</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-primary text-3xl font-bold text-primary-foreground">
-                    {committee.director.name.split(" ").map(n => n[0]).join("")}
-                  </div>
-                  <h3 className="text-lg font-semibold text-card-foreground">{committee.director.name}</h3>
-                  <p className="mb-4 text-sm text-muted-foreground">{committee.director.role}</p>
-                  <div className="flex justify-center gap-3">
-                    <Link
-                      href={committee.director.socials.facebook}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                      aria-label={`Facebook de ${committee.director.name}`}
-                    >
-                      <Facebook className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href={committee.director.socials.instagram}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                      aria-label={`Instagram de ${committee.director.name}`}
-                    >
-                      <Instagram className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href={`mailto:${committee.director.socials.email}`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                      aria-label={`Email de ${committee.director.name}`}
-                    >
-                      <Mail className="h-5 w-5" />
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+           {/* Columna Derecha: DIRECTORES DINÁMICOS */}
+          <div className="lg:col-span-1 space-y-4">
+            <h3 className="font-bold text-xl text-primary">Equipo Directivo</h3>
+            {directors && directors.length > 0 ? (
+              directors.map((dir) => (
+                <Card key={dir.id}>
+                  <CardContent className="pt-6 text-center">
+                    <div className="w-20 h-20 bg-primary rounded-full mx-auto mb-4 overflow-hidden">
+                      {dir.image_url ? (
+                        <img src={dir.image_url} alt={dir.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="h-full flex items-center justify-center text-white font-bold text-xl">
+                          {dir.name.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <h4 className="font-bold">{dir.name}</h4>
+                    <p className="text-sm text-muted-foreground">{dir.role}</p>
+                    <div className="flex justify-center gap-2 mt-3">
+                      {dir.email && <Link href={`mailto:${dir.email}`}><Mail className="h-4 w-4 text-muted-foreground hover:text-primary"/></Link>}
+                      {dir.instagram && <Link href={dir.instagram}><Instagram className="h-4 w-4 text-muted-foreground hover:text-primary"/></Link>}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <p className="text-muted-foreground italic">Puesto en convocatoria</p>
+            )}
           </div>
         </div>
+       </div>
       </section>
     </>
   )

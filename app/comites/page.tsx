@@ -83,7 +83,7 @@ const socimepCommittees = [
   {
     name: "CPA",
     slug: "cpa",
-    fullName: "Comité Permanente de Actividades",
+    fullName: "Comité Permanente Académico",
     objectives: "Planificar, organizar y ejecutar actividades académicas, científicas y sociales de la sociedad.",
     activities: [
       "Organización de congresos",
@@ -95,7 +95,7 @@ const socimepCommittees = [
   {
     name: "CPC",
     slug: "cpc",
-    fullName: "Comité Permanente de Capacitación",
+    fullName: "Comité Permanente Científico",
     objectives: "Brindar capacitación continua a los miembros en temas de investigación, liderazgo y habilidades blandas.",
     activities: [
       "Cursos de metodología de investigación",
@@ -107,7 +107,7 @@ const socimepCommittees = [
   {
     name: "CPPC",
     slug: "cppc",
-    fullName: "Comité Permanente de Proyección Comunitaria",
+    fullName: "Comité Permanente de Publicaciones Científicas",
     objectives: "Desarrollar actividades de proyección social que impacten positivamente en la comunidad.",
     activities: [
       "Campañas de salud comunitaria",
@@ -131,7 +131,7 @@ const socimepCommittees = [
   {
     name: "CPRII",
     slug: "cprii",
-    fullName: "Comité Permanente de Relaciones Interinstitucionales e Internacionales",
+    fullName: "Comité Permanente de Relaciones Interinstitucionales e Intercambios",
     objectives: "Establecer y mantener relaciones con otras instituciones nacionales e internacionales.",
     activities: [
       "Convenios interinstitucionales",
@@ -143,7 +143,7 @@ const socimepCommittees = [
   {
     name: "CPAIS",
     slug: "cpais",
-    fullName: "Comité Permanente de Asesoría e Investigación en Salud",
+    fullName: "Comité Permanente de Atención Integral en Salud",
     objectives: "Promover y asesorar proyectos de investigación en salud entre los miembros de la sociedad.",
     activities: [
       "Asesoría de proyectos de investigación",

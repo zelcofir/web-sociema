@@ -74,13 +74,21 @@ export function CommitteesPreview() {
             {directors.map((director) => (
               <Card key={director.id} className="overflow-hidden border-0 bg-card shadow-sm transition-shadow hover:shadow-md">
                 <Link href={`/comites/${director.slug}`}>
-                  <div className="aspect-square bg-primary/10">
-                    <div className="flex h-full items-center justify-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
-                        {director.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
-                      </div>
+                   <div className="aspect-square bg-primary/10 relative overflow-hidden">
+                       {director.image_url ? (
+                        <img 
+                          src={director.image_url} 
+                          alt={director.name} 
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
+                            {director.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
                 </Link>
                 <CardContent className="p-3 text-center">
                   <Link href={`/comites/${director.slug}`} className="group">
