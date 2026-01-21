@@ -319,7 +319,7 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
     <>
       {/* Hero Section */}
       
-      <section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
+<section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
         {/* Imagen de fondo con opacidad para que el texto sea legible */}
         {committee.coverImage && (
           <div 
@@ -333,7 +333,7 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
             <ArrowLeft className="h-4 w-4" /> Volver a Comités
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <Badge className="bg-white/20 text-white border-none backdrop-blur-md">{committee.organization}</Badge>
+            <Badge className="bg-secondary text-secondary-foreground">{committee.organization}</Badge>
             <Badge variant="outline" className="border-white/30 text-white">{committee.name}</Badge>
           </div>
           <h1 className="mt-4 text-3xl font-bold text-white md:text-5xl lg:text-6xl max-w-4xl leading-tight">
