@@ -174,7 +174,7 @@ export default function PublicacionesPage() {
                         {/* Image Section */}
                         <div className="relative h-48 w-full shrink-0 bg-muted sm:h-auto sm:w-40 md:w-48">
                           <Image
-                            src={pub.image_url || "/placeholder.svg"}
+                            src={pub.image_url || "/publication_default.jpg"}
                             alt={`Portada de ${pub.title}`}
                             fill
                             className="object-cover"
