@@ -42,17 +42,17 @@ const faqs = [
 const usefulLinks = [
   {
     name: "Portal de la Universidad",
-    url: "https://www.ucsm.edu.pe",
-    description: "Acceso al portal estudiantil UCSM",
+    url: "https://www.unsa.edu.pe/",
+    description: "Acceso al portal estudiantil UNSA",
   },
   {
     name: "IFMSA Perú",
-    url: "#",
+    url: "https://ifmsaperu.org/",
     description: "Federación Internacional de Estudiantes de Medicina",
   },
   {
     name: "SOCIMEP",
-    url: "#",
+    url: "https://www.socimep.org/",
     description: "Sociedad Científica Médico Estudiantil Peruana",
   },
   {
