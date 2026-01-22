@@ -55,6 +55,12 @@ export default function PublicacionesPage() {
     fetchPublications()
   }, [])
 
+  // --- LÓGICA DE CONTEO POR CATEGORÍAS ---
+  const counts = publications.reduce((acc: Record<string, number>, pub) => {
+    acc[pub.type] = (acc[pub.type] || 0) + 1
+    return acc
+  }, {})
+
   const filteredPublications = publications.filter((pub) => {
     const matchesTitle = pub.title.toLowerCase().includes(searchTitle.toLowerCase())
     const matchesType = selectedType === "Todos" || pub.type === selectedType
@@ -71,12 +77,31 @@ export default function PublicacionesPage() {
           <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl">
             Publicaciones
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-primary-foreground/90">
-            Explora nuestra produccion cientifica y contribuciones a la investigacion medica.
+          <p className="mx-auto max-w-2xl text-lg text-primary-foreground/90 mb-8">
+            Explora nuestra producción científica y contribuciones a la investigación médica.
           </p>
+
+          {/* CONTADORES CON CAJITA Y TEXTO BLANCO */}
+          {!loading && (
+            <div className="flex flex-wrap justify-center gap-4 mt-6">
+              {Object.entries(counts).map(([type, count]) => (
+                <div 
+                  key={type} 
+                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-6 py-4 flex flex-col items-center min-w-[140px]"
+                >
+                  <span className="text-3xl font-bold text-white block">
+                    {count}
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-white mt-1">
+                    {type}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
-
+      
       {/* Search Section */}
       <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
@@ -145,61 +170,44 @@ export default function PublicacionesPage() {
       <section className="pb-16 md:pb-24">
         <div className="container mx-auto px-4">
           {loading ? (
-            <div className="space-y-4">
-              {[...Array(3)].map((_, i) => (
-                <Card key={i} className="overflow-hidden border border-border bg-card animate-pulse">
-                  <CardContent className="p-0">
-                    <div className="flex flex-col gap-4 sm:flex-row">
-                      <div className="h-48 w-full shrink-0 bg-muted sm:h-auto sm:w-40 md:w-48" />
-                      <div className="flex flex-1 flex-col gap-4 p-4">
-                        <div className="h-4 bg-muted rounded w-1/4" />
-                        <div className="h-6 bg-muted rounded w-3/4" />
-                        <div className="h-4 bg-muted rounded w-1/2" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <div className="text-center py-10 font-bold">Cargando publicaciones...</div>
           ) : (
             <>
-              <p className="mb-6 text-muted-foreground">
-                {filteredPublications.length} publicacion(es) encontrada(s)
+              <p className="mb-6 text-muted-foreground italic">
+                {filteredPublications.length} publicación(es) encontrada(s)
               </p>
               <div className="space-y-4">
                 {filteredPublications.map((pub) => (
                   <Card key={pub.id} className="overflow-hidden border border-border bg-card transition-colors hover:border-primary">
                     <CardContent className="p-0">
                       <div className="flex flex-col gap-4 sm:flex-row">
-                        {/* Image Section */}
                         <div className="relative h-48 w-full shrink-0 bg-muted sm:h-auto sm:w-40 md:w-48">
                           <Image
                             src={pub.image_url || "/publication_default.jpg"}
-                            alt={`Portada de ${pub.title}`}
+                            alt={pub.title}
                             fill
                             className="object-cover"
                           />
                         </div>
-                        {/* Content Section */}
                         <div className="flex flex-1 flex-col justify-between gap-4 p-4 sm:py-4 sm:pr-4">
                           <div className="space-y-2">
                             <div className="flex flex-wrap items-center gap-2">
-                              <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
+                              <Badge variant="secondary">
                                 <FileText className="mr-1 h-3 w-3" />
                                 {pub.type}
                               </Badge>
-                              <Badge variant="outline" className="border-border">
+                              <Badge variant="outline">
                                 <Calendar className="mr-1 h-3 w-3" />
                                 {pub.year}
                               </Badge>
                             </div>
-                            <h3 className="text-lg font-semibold text-card-foreground">{pub.title}</h3>
+                            <h3 className="text-lg font-semibold">{pub.title}</h3>
                             <p className="flex items-center gap-1 text-sm text-muted-foreground">
                               <User className="h-4 w-4" />
                               {pub.authors}
                             </p>
                           </div>
-                          <Button variant="outline" size="sm" asChild className="w-fit bg-transparent">
+                          <Button variant="outline" size="sm" asChild className="w-fit">
                             <Link href={pub.link} target="_blank">
                               Ver articulo
                               <ExternalLink className="ml-2 h-4 w-4" />
@@ -211,16 +219,6 @@ export default function PublicacionesPage() {
                   </Card>
                 ))}
               </div>
-
-              {filteredPublications.length === 0 && (
-                <Card className="border-2 border-dashed border-border bg-muted/50">
-                  <CardContent className="flex flex-col items-center justify-center py-12">
-                    <Search className="mb-4 h-12 w-12 text-muted-foreground" />
-                    <p className="text-lg font-medium text-foreground">No se encontraron publicaciones</p>
-                    <p className="text-muted-foreground">Intenta ajustar los filtros de busqueda</p>
-                  </CardContent>
-                </Card>
-              )}
             </>
           )}
         </div>
