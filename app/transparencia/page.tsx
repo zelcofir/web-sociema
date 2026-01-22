@@ -1,108 +1,49 @@
-import React from "react"
-import { FileText, BookOpen, ExternalLink, Download } from "lucide-react"
+"use client"
+
+import React, { useState, useEffect } from "react"
+import { FileText, BookOpen, ExternalLink, Download, Loader2, Users, ShieldCheck } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
+import { createBrowserClient } from "@supabase/ssr"
 
-const normativeDocuments = [
-  {
-    id: 1,
-    name: "Estatuto de SOCIEMA",
-    description: "Documento fundacional que establece los principios, objetivos y estructura de la organización.",
-    link: "#",
-  },
-  {
-    id: 2,
-    name: "Reglamento Interno",
-    description: "Normas que regulan el funcionamiento interno y la conducta de los miembros.",
-    link: "#",
-  },
-  {
-    id: 3,
-    name: "Código de Ética",
-    description: "Principios éticos que guían la conducta de los miembros en sus actividades científicas y sociales.",
-    link: "#",
-  },
-  {
-    id: 4,
-    name: "Reglamento Electoral",
-    description: "Normas que rigen el proceso de elección de la directiva y representantes.",
-    link: "#",
-  },
-  {
-    id: 5,
-    name: "Plan Estratégico 2024-2026",
-    description: "Documento que establece la visión, misión y objetivos estratégicos del periodo.",
-    link: "#",
-  },
-  {
-    id: 6,
-    name: "Política de Privacidad",
-    description: "Lineamientos sobre el manejo y protección de datos personales de los miembros.",
-    link: "#",
-  },
-]
-
-const manuals = [
-  {
-    id: 1,
-    name: "Manual de Organización y Funciones",
-    description: "Documento que describe la estructura organizacional y las funciones de cada área.",
-    link: "#",
-  },
-  {
-    id: 2,
-    name: "Manual de Procedimientos",
-    description: "Guía detallada de los procedimientos administrativos y operativos.",
-    link: "#",
-  },
-  {
-    id: 3,
-    name: "Manual de Investigación",
-    description: "Lineamientos para el desarrollo de proyectos de investigación dentro de SOCIEMA.",
-    link: "#",
-  },
-  {
-    id: 4,
-    name: "Manual de Proyección Social",
-    description: "Guía para la planificación y ejecución de actividades de proyección social.",
-    link: "#",
-  },
-  {
-    id: 5,
-    name: "Manual de Eventos",
-    description: "Procedimientos para la organización de congresos, talleres y actividades académicas.",
-    link: "#",
-  },
-  {
-    id: 6,
-    name: "Manual de Identidad Visual",
-    description: "Guía de uso del logo, colores institucionales y material gráfico de SOCIEMA.",
-    link: "#",
-  },
-]
-
-interface DocumentCardProps {
-  document: {
-    id: number
-    name: string
-    description: string
-    link: string
-  }
-  icon: React.ReactNode
+interface Documento {
+  id: string
+  name: string
+  description: string
+  link: string
+  categoria: string
+  image_url: string | null
+  priority: number
 }
 
-function DocumentCard({ document, icon }: DocumentCardProps) {
+function DocumentCard({ document, icon }: { document: Documento, icon: React.ReactNode }) {
   return (
-    <Card className="flex flex-col border-2 border-border bg-card transition-all hover:border-primary hover:shadow-md">
-      <CardHeader className="pb-3">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10">
-          {icon}
+    <Card className="flex flex-col border-2 border-border bg-card transition-all hover:border-primary hover:shadow-md w-full max-w-[280px] h-full">
+      <CardHeader className="pb-3 text-center">
+        <CardTitle className="text-lg text-card-foreground line-clamp-2 min-h-[3.5rem] flex items-center justify-center px-2">
+          {document.name}
+        </CardTitle>
+        <div className="mb-4 flex h-56 w-full items-center justify-center rounded-lg bg-primary/5 overflow-hidden">
+          <div className="relative h-48 aspect-[1/1.5] shadow-md transition-transform hover:scale-105 duration-300">
+            {document.image_url ? (
+              <Image 
+                src={document.image_url} 
+                alt={document.name} 
+                fill 
+                className="object-cover rounded-sm border"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-white border rounded-sm">
+                {icon}
+              </div>
+            )}
+          </div>
         </div>
-        <CardTitle className="text-lg text-card-foreground">{document.name}</CardTitle>
       </CardHeader>
-      <CardContent className="mt-auto space-y-4">
-        <p className="text-sm text-muted-foreground leading-relaxed">
+      <CardContent className="mt-auto space-y-4 text-center">
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
           {document.description}
         </p>
         <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
@@ -117,106 +58,124 @@ function DocumentCard({ document, icon }: DocumentCardProps) {
 }
 
 export default function TransparenciaPage() {
+  const [documents, setDocuments] = useState<Documento[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchDocs() {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      )
+      
+      const { data, error } = await supabase
+        .from("documentos_transparencia")
+        .select("*")
+        .order("priority", { ascending: true }) 
+        .order("name", { ascending: true })
+
+      if (!error) setDocuments(data || [])
+      setLoading(false)
+    }
+    fetchDocs()
+  }, [])
+
+  // Filtros por categorías
+  const normativeDocs = documents.filter(d => d.categoria?.toLowerCase() === "normativo")
+  const executiveDocs = documents.filter(d => d.categoria?.toLowerCase() === "ejecutivo")
+  const committeeDocs = documents.filter(d => d.categoria?.toLowerCase() === "comite")
+
   return (
     <>
-      {/* Hero Section */}
       <section className="bg-primary py-16 md:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl">
-            Transparencia
-          </h1>
+          <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl">Transparencia</h1>
           <p className="mx-auto max-w-2xl text-lg text-primary-foreground/90">
-            Accede a nuestros documentos normativos y manuales institucionales. En SOCIEMA creemos en la transparencia y el acceso a la información.
+            Accede a nuestros documentos normativos y manuales institucionales.
           </p>
         </div>
       </section>
 
-      {/* Normative Documents Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="mb-10">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="container mx-auto px-4 py-16 space-y-24">
+          
+          {/* SECCIÓN 1: DOCUMENTOS NORMATIVOS */}
+          <section>
+            <div className="mb-10 flex flex-col items-center gap-2">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary mb-2">
                 <FileText className="h-6 w-6 text-primary-foreground" />
               </div>
-              <div>
-                <h2 className="text-2xl font-bold text-foreground md:text-3xl">
-                  Documentos Normativos
-                </h2>
-                <p className="text-muted-foreground">
-                  Marco legal y normativo que rige nuestra organización
-                </p>
-              </div>
+              <h2 className="text-2xl font-bold md:text-3xl text-center">Documentos Normativos</h2>
             </div>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {normativeDocuments.map((doc) => (
-              <DocumentCard
-                key={doc.id}
-                document={doc}
-                icon={<FileText className="h-8 w-8 text-primary" />}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Manuals Section */}
-      <section className="bg-muted py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="mb-10">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary">
-                <BookOpen className="h-6 w-6 text-secondary-foreground" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-foreground md:text-3xl">
-                  Manuales
-                </h2>
-                <p className="text-muted-foreground">
-                  Guías y procedimientos para nuestras actividades
-                </p>
-              </div>
+            <div className="flex flex-wrap justify-center gap-8">
+              {normativeDocs.map((doc) => (
+                <div key={doc.id} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.5rem)] xl:w-[calc(25%-1.5rem)] max-w-[280px]">
+                  <DocumentCard document={doc} icon={<FileText className="h-10 w-10 text-primary/20" />} />
+                </div>
+              ))}
             </div>
-          </div>
+          </section>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {manuals.map((manual) => (
-              <DocumentCard
-                key={manual.id}
-                document={manual}
-                icon={<BookOpen className="h-8 w-8 text-accent" />}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+          {/* SECCIÓN 2: MANUALES DEL EJECUTIVO */}
+          <section className="bg-muted/30 -mx-4 px-4 py-16 rounded-xl border-y border-border/50">
+            <div className="mb-10 flex flex-col items-center gap-2">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary mb-2">
+                <ShieldCheck className="h-6 w-6 text-secondary-foreground" />
+              </div>
+              <h2 className="text-2xl font-bold md:text-3xl text-center">Manuales del Ejecutivo</h2>
+              <p className="text-muted-foreground text-sm">Presidencia, Vicepresidencia, Fiscalía, Secretaría y Tesorería</p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8">
+              {executiveDocs.map((doc) => (
+                <div key={doc.id} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.5rem)] xl:w-[calc(25%-1.5rem)] max-w-[280px]">
+                  <DocumentCard document={doc} icon={<BookOpen className="h-10 w-10 text-secondary/20" />} />
+                </div>
+              ))}
+            </div>
+          </section>
 
-      {/* Additional Info */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <Card className="border-2 border-primary/20 bg-card">
-            <CardContent className="flex flex-col items-center gap-4 p-8 text-center md:flex-row md:text-left">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <ExternalLink className="h-8 w-8 text-primary" />
+          {/* SECCIÓN 3: MANUALES DE COMITÉS */}
+          <section>
+            <div className="mb-10 flex flex-col items-center gap-2">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent mb-2">
+                <Users className="h-6 w-6 text-accent-foreground" />
               </div>
-              <div className="flex-1">
-                <h3 className="mb-2 text-xl font-semibold text-card-foreground">
-                  ¿Necesitas más información?
-                </h3>
-                <p className="text-muted-foreground">
-                  Si requieres acceso a documentos adicionales o tienes consultas sobre nuestra gestión, no dudes en contactarnos. Estamos comprometidos con la transparencia institucional.
-                </p>
-              </div>
-              <Button asChild>
-                <Link href="/faq">
-                  Contáctanos
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+              <h2 className="text-2xl font-bold md:text-3xl text-center">Manuales de Comités</h2>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8">
+              {committeeDocs.map((doc) => (
+                <div key={doc.id} className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.5rem)] xl:w-[calc(25%-1.5rem)] max-w-[280px]">
+                  <DocumentCard document={doc} icon={<BookOpen className="h-10 w-10 text-accent/20" />} />
+                </div>
+              ))}
+            </div>
+          </section>
+
         </div>
+      )}
+
+      {/* Footer Info */}
+      <section className="py-16 md:py-24 container mx-auto px-4">
+        <Card className="border-2 border-primary/20 bg-card">
+          <CardContent className="flex flex-col items-center gap-4 p-8 md:flex-row">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <ExternalLink className="h-8 w-8 text-primary" />
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="mb-2 text-xl font-semibold">¿Necesitas más información?</h3>
+              <p className="text-muted-foreground text-sm">
+                Si requieres acceso a documentos adicionales o tienes consultas sobre nuestra gestión, no dudes en contactarnos.
+              </p>
+            </div>
+            <Button asChild>
+              <Link href="/faq">Contáctanos</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </section>
     </>
   )

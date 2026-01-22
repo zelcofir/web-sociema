@@ -7,7 +7,7 @@ import Link from "next/link"
 const faqs = [
   {
     question: "¿Cómo puedo unirme a SOCIEMA?",
-    answer: "Para unirte a SOCIEMA, debes ser estudiante de medicina de la Universidad Católica de Santa María. Puedes acercarte a nuestra oficina durante el periodo de inscripciones o contactarnos a través de nuestras redes sociales. El proceso incluye llenar una ficha de inscripción y asistir a una charla de inducción.",
+    answer: "Para unirte a SOCIEMA, debes ser estudiante de medicina de la Universidad Nacional de San Agustín de Arequipa. El proceso incluye llenar una ficha de inscripción y asistir a una charla de inducción. Regístrate como miembro aspirante a través de nuestros links útiles (la sección inferior)",
   },
   {
     question: "¿Cuáles son los requisitos para ser miembro activo?",
@@ -32,11 +32,7 @@ const faqs = [
   {
     question: "¿Cómo puedo publicar mi investigación con SOCIEMA?",
     answer: "SOCIEMA apoya a sus miembros en la publicación científica. Ofrecemos asesoría en redacción científica, revisión de manuscritos y orientación sobre revistas científicas apropiadas. Contáctanos a través del Comité de Investigación para más información.",
-  },
-  {
-    question: "¿Cuál es el costo de la membresía?",
-    answer: "La membresía anual tiene un costo de S/ 30.00, que incluye acceso a todas las capacitaciones, materiales de estudio, y descuentos en eventos especiales. El pago puede realizarse en efectivo en nuestra oficina o por transferencia bancaria.",
-  },
+  }
 ]
 
 const usefulLinks = [
@@ -56,19 +52,49 @@ const usefulLinks = [
     description: "Sociedad Científica Médico Estudiantil Peruana",
   },
   {
-    name: "PubMed",
-    url: "https://pubmed.ncbi.nlm.nih.gov",
-    description: "Base de datos de literatura biomédica",
+    name: "Postulación miembro aspirante",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSdWU4xkSPaL5GXKFlJOa5axLuqFpwno_3VrMXp8VGm_TOS9OQ/viewform",
+    description: "Únete a nuestra familia SOCIEMA",
   },
   {
-    name: "Scielo Perú",
-    url: "https://scielo.org.pe",
-    description: "Biblioteca científica electrónica en línea",
+    name: "Consulta puntos de intercambio",
+    url: "https://docs.google.com/spreadsheets/d/1O3KMsQNFIi98iUwOVYwkLr5RYMePBGQt3Zh8gvDJZyc/edit?gid=0#gid=0",
+    description: "Revisa cuántos puntos de intercambio posees",
   },
   {
-    name: "Google Scholar",
+    name: "POAs gestión 2026 SOCIEMA",
     url: "https://scholar.google.com",
-    description: "Buscador de literatura académica",
+    description: "Planes Operativos Anuales (POAs) de la gestión actual",
+  },
+  {
+    name: "Miembros activos por comité",
+    url: "https://scholar.google.com",
+    description: "Miembros participativos durante el año",
+  },
+  {
+    name: "Calendario de eventos SOCIEMA",
+    url: "https://scholar.google.com",
+    description: "Conoce nuestros eventos durante el año",
+  }, 
+  {
+    name: "Justificaciones a asambleas",
+    url: "https://scholar.google.com",
+    description: "Justifica tu inasistencia a asambleas generales",
+  },
+  {
+    name: "Avales SOCIEMA",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSf0vZttSDkKMqa0EvrFy56yLOuHpf9bv089yPDzZI00tSUOfA/viewform",
+    description: "Solicita tu aval a eventos y congresos",
+  },
+  {
+    name: "Depósitos SOCIEMA",
+    url: "https://docs.google.com/forms/u/5/d/e/1FAIpQLSf0IBzcSZla8YzckqMF1XRuPf4BROjicGMZ4QvCz6kZUhmL-Q/viewform?usp=send_form",
+    description: "Registra cada pago realizado a SOCIEMA",
+  },
+  {
+    name: "Buzón de sugerencias",
+    url: "https://scholar.google.com",
+    description: "Queremos saber tu opinión para mejorar",
   },
 ]
 
@@ -158,7 +184,7 @@ export default function FAQPage() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium text-card-foreground">contacto@sociema.org</p>
+                    <p className="font-medium text-card-foreground">sociema.aqp2@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -176,7 +202,7 @@ export default function FAQPage() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Dirección</p>
-                    <p className="font-medium text-card-foreground">Facultad de Medicina, UCSM - Arequipa, Perú</p>
+                    <p className="font-medium text-card-foreground">Facultad de Medicina, UNSA - Arequipa, Perú</p>
                   </div>
                 </div>
               </CardContent>

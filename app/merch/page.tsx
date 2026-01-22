@@ -6,116 +6,56 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import Image from "next/image" // Importante para las imágenes reales
+import { createClient } from '@supabase/supabase-js' // Asegúrate de tener instalado @supabase/supabase-js
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Polo SOCIEMA Oficial",
-    description: "Polo deportivo con logo bordado de SOCIEMA",
-    price: 45.00,
-    image: "/polo",
-    link: "#",
-  },
-  {
-    id: 2,
-    name: "Mandil Blanco SOCIEMA",
-    description: "Mandil médico de alta calidad con logo",
-    price: 65.00,
-    image: "/mandil",
-    link: "#",
-  },
-  {
-    id: 3,
-    name: "Taza SOCIEMA",
-    description: "Taza de cerámica con diseño exclusivo",
-    price: 25.00,
-    image: "/taza",
-    link: "#",
-  },
-]
-
-const allProducts = [
-  {
-    id: 1,
-    name: "Polo SOCIEMA Oficial",
-    description: "Polo deportivo con logo bordado de SOCIEMA. Disponible en tallas S, M, L, XL.",
-    price: 45.00,
-    link: "#",
-    category: "Ropa",
-  },
-  {
-    id: 2,
-    name: "Mandil Blanco SOCIEMA",
-    description: "Mandil médico de alta calidad con logo institucional bordado. Tela antifluidos.",
-    price: 65.00,
-    link: "#",
-    category: "Uniforme",
-  },
-  {
-    id: 3,
-    name: "Taza SOCIEMA",
-    description: "Taza de cerámica con diseño exclusivo de SOCIEMA. Capacidad 350ml.",
-    price: 25.00,
-    link: "#",
-    category: "Accesorios",
-  },
-  {
-    id: 4,
-    name: "Gorro Quirúrgico",
-    description: "Gorro quirúrgico con estampado de SOCIEMA. Material algodón 100%.",
-    price: 20.00,
-    link: "#",
-    category: "Uniforme",
-  },
-  {
-    id: 5,
-    name: "Libreta de Notas",
-    description: "Libreta profesional con pasta dura y logo de SOCIEMA. 100 hojas.",
-    price: 18.00,
-    link: "#",
-    category: "Papelería",
-  },
-  {
-    id: 6,
-    name: "Lapicero SOCIEMA",
-    description: "Set de 3 lapiceros metálicos con logo grabado. Tinta azul.",
-    price: 15.00,
-    link: "#",
-    category: "Papelería",
-  },
-  {
-    id: 7,
-    name: "Llavero SOCIEMA",
-    description: "Llavero metálico con logo 3D de SOCIEMA. Acabado premium.",
-    price: 12.00,
-    link: "#",
-    category: "Accesorios",
-  },
-  {
-    id: 8,
-    name: "Stickers SOCIEMA",
-    description: "Pack de 10 stickers con diseños variados de SOCIEMA. Vinilo resistente.",
-    price: 8.00,
-    link: "#",
-    category: "Accesorios",
-  },
-]
+// Inicialización del cliente (de preferencia usa variables de entorno)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export default function MerchPage() {
+  const [products, setProducts] = useState<any[]>([])
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  // Fetch de datos desde Supabase
+  useEffect(() => {
+    async function getProducts() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: true })
+      
+      if (data) setProducts(data)
+      setLoading(false)
+    }
+    getProducts()
+  }, [])
+
+  // Filtros basados en los datos de la DB
+  const featuredProducts = products.filter(p => p.is_featured)
+  const allProducts = products // O puedes filtrar por los que no son destacados
 
   const nextSlide = useCallback(() => {
+    if (featuredProducts.length === 0) return
     setCurrentSlide((prev) => (prev + 1) % featuredProducts.length)
-  }, [])
+  }, [featuredProducts.length])
 
   const prevSlide = useCallback(() => {
+    if (featuredProducts.length === 0) return
     setCurrentSlide((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length)
-  }, [])
+  }, [featuredProducts.length])
 
   useEffect(() => {
-    const timer = setInterval(nextSlide, 4000)
-    return () => clearInterval(timer)
-  }, [nextSlide])
+    if (featuredProducts.length > 0) {
+      const timer = setInterval(nextSlide, 4000)
+      return () => clearInterval(timer)
+    }
+  }, [nextSlide, featuredProducts.length])
+
+  if (loading) return <div className="py-20 text-center">Cargando catálogo...</div>
 
   return (
     <>
@@ -150,8 +90,17 @@ export default function MerchPage() {
                     className="min-w-full px-4"
                   >
                     <Card className="mx-auto max-w-md border-2 border-primary/20 bg-card">
-                      <div className="flex aspect-video items-center justify-center bg-primary/10">
-                        <ShoppingCart className="h-20 w-20 text-primary/40" />
+                      <div className="relative flex aspect-video items-center justify-center bg-primary/10 overflow-hidden">
+                        {product.image_url ? (
+                            <Image 
+                              src={product.image_url} 
+                              alt={product.name} 
+                              fill 
+                              className="object-cover"
+                            />
+                        ) : (
+                            <ShoppingCart className="h-20 w-20 text-primary/40" />
+                        )}
                       </div>
                       <CardHeader className="text-center">
                         <CardTitle className="text-2xl text-card-foreground">{product.name}</CardTitle>
@@ -159,10 +108,10 @@ export default function MerchPage() {
                       </CardHeader>
                       <CardContent className="text-center">
                         <p className="mb-4 text-3xl font-bold text-primary">
-                          S/ {product.price.toFixed(2)}
+                          S/ {Number(product.price).toFixed(2)}
                         </p>
                         <Button asChild className="w-full">
-                          <Link href={product.link}>
+                          <Link href={product.link || "#"}>
                             Adquirir ahora
                             <ExternalLink className="ml-2 h-4 w-4" />
                           </Link>
@@ -223,8 +172,17 @@ export default function MerchPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {allProducts.map((product) => (
               <Card key={product.id} className="flex flex-col border border-border bg-card transition-all hover:border-primary hover:shadow-lg">
-                <div className="flex aspect-square items-center justify-center bg-primary/5">
-                  <ShoppingCart className="h-16 w-16 text-primary/30" />
+                <div className="relative flex aspect-square items-center justify-center bg-primary/5 overflow-hidden">
+                  {product.image_url ? (
+                      <Image 
+                        src={product.image_url} 
+                        alt={product.name} 
+                        fill 
+                        className="object-cover"
+                      />
+                  ) : (
+                      <ShoppingCart className="h-16 w-16 text-primary/30" />
+                  )}
                 </div>
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
@@ -240,10 +198,10 @@ export default function MerchPage() {
                   </CardDescription>
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-primary">
-                      S/ {product.price.toFixed(2)}
+                      S/ {Number(product.price).toFixed(2)}
                     </span>
                     <Button size="sm" asChild>
-                      <Link href={product.link}>
+                      <Link href={product.link || "#"}>
                         Adquirir
                         <ExternalLink className="ml-1 h-3 w-3" />
                       </Link>

@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
+import Image from "next/image"
 
 const quickLinks = [
   { name: "Nosotros", href: "/nosotros" },
@@ -21,11 +22,11 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { name: "Facebook", href: "#", icon: Facebook },
-  { name: "Instagram", href: "#", icon: Instagram },
-  { name: "TikTok", href: "#", icon: TikTokIcon },
-  { name: "Twitter", href: "#", icon: Twitter },
-  { name: "YouTube", href: "#", icon: Youtube },
+  { name: "Facebook", href: "https://www.facebook.com/sociema/", icon: Facebook },
+  { name: "Instagram", href: "https://www.instagram.com/sociema_oficial/", icon: Instagram },
+  { name: "TikTok", href: "https://www.tiktok.com/@sociema_oficial_aqp", icon: TikTokIcon },
+  { name: "Linkedin", href: "https://www.linkedin.com/company/80985308/admin/dashboard/", icon: Linkedin },
+  { name: "YouTube", href: "https://www.youtube.com/@sociemaunsa1517", icon: Youtube },
 ]
 
 export function Footer() {
@@ -35,14 +36,21 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary">
-                <span className="text-lg font-bold text-secondary-foreground">S</span>
+            <div className="flex items-center gap-3">
+              <div className="relative h-10 w-10 overflow-hidden rounded-lg">
+                <Image
+                  src="/logo.png"
+                  alt="Logo SOCIEMA"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <span className="text-xl font-bold">SOCIEMA</span>
+              <span className="text-xl font-bold tracking-tight">SOCIEMA</span>
             </div>
-            <p className="text-sm text-primary-foreground/80">
-              Sociedad Científica de Estudiantes de Medicina Agustinos. Investigación, academia y servicio.
+            <p className="text-sm text-primary-foreground/80 leading-relaxed">
+              Sociedad Científica de Estudiantes de Medicina Agustinos. 
+              Investigación, academia y servicio.
             </p>
           </div>
 
@@ -71,6 +79,8 @@ export function Footer() {
                 <Link
                   key={social.name}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 transition-colors hover:bg-secondary hover:text-secondary-foreground"
                   aria-label={social.name}
                 >
