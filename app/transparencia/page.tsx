@@ -71,8 +71,7 @@ export default function TransparenciaPage() {
       const { data, error } = await supabase
         .from("documentos_transparencia")
         .select("*")
-        .order("priority", { ascending: true }) 
-        .order("name", { ascending: true })
+        // Se eliminaron las líneas de .order para evitar el error de columna inexistente
 
       if (!error) setDocuments(data || [])
       setLoading(false)

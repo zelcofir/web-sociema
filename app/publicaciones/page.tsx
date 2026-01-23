@@ -21,7 +21,7 @@ interface Publication {
   image_url: string | null
 }
 
-const articleTypes = ["Todos", "Articulo Original", "Revision Sistematica", "Caso Clinico", "Carta al Editor"]
+const articleTypes = ["Todos", "Articulo Original", "Revision sistematica", "Caso Clinico", "Carta al editor"]
 const years = ["Todos", "2026", "2025", "2024", "2023"]
 
 export default function PublicacionesPage() {
