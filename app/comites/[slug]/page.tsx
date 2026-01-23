@@ -1,301 +1,157 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Target, Users, ArrowLeft, Calendar, MapPin, Facebook, Instagram, Mail } from "lucide-react"
+import { Target, Users, ArrowLeft, Calendar, MapPin, Instagram, Mail } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { supabase } from "@/lib/supabase" // Importamos supabase
+import { supabase } from "@/lib/supabase"
 
 const allCommittees = {
   // IFMSA Committees
   scora: {
     name: "SCORA",
     fullName: "Standing Committee on Reproductive Health including AIDS",
-    color: "bg-red-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-red-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCORA es el comité enfocado en la salud sexual y reproductiva, incluyendo la prevención del VIH/SIDA y otras infecciones de transmisión sexual. Trabajamos para educar y sensibilizar a la comunidad estudiantil y general sobre estos temas cruciales para la salud pública.",
-    objectives: "Promover la salud sexual y reproductiva, incluyendo la prevención del VIH/SIDA y otras ITS, mediante educación y sensibilización.",
-    activities: [
-      "Campañas de educación sexual",
-      "Talleres sobre prevención de ITS",
-      "Charlas sobre derechos reproductivos",
-      "Actividades por el Día Mundial del SIDA",
-    ],
-    upcomingEvents: [
-      { title: "Taller de Educación Sexual Integral", date: "15 Feb 2026", location: "Auditorio Principal" },
-      { title: "Campaña Día del Condón", date: "13 Feb 2026", location: "Campus Universitario" },
-    ],
-    director: {
-      name: "Laura Martínez",
-      role: "Directora Local SCORA",
-      socials: { facebook: "#", instagram: "#", email: "scora@sociema.org" },
-    },
+    description: "SCORA es el comité enfocado en la salud sexual y reproductiva, incluyendo la prevención del VIH/SIDA e ITS.",
+    objectives: "Promover la salud sexual y reproductiva mediante educación y sensibilización.",
+    activities: ["Campañas de educación sexual", "Talleres sobre prevención de ITS", "Charlas sobre derechos reproductivos"],
+    upcomingEvents: [{ title: "Taller de ESI", date: "15 Feb 2026", location: "Auditorio Principal" }],
+    instagramWidgetId: "AQUÍ_ID_SCORA", 
   },
   scorp: {
     name: "SCORP",
     fullName: "Standing Committee on Human Rights and Peace",
-    color: "bg-green-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-green-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCORP trabaja para promover la paz, los derechos humanos y la asistencia humanitaria. Buscamos sensibilizar a los estudiantes de medicina sobre su rol social y su responsabilidad con las poblaciones más vulnerables.",
-    objectives: "Promover la paz, los derechos humanos y la asistencia humanitaria, sensibilizando a los estudiantes de medicina sobre su rol social.",
-    activities: [
-      "Campañas de derechos humanos",
-      "Apoyo a poblaciones vulnerables",
-      "Jornadas de reflexión sobre migración",
-      "Actividades por el Día de los Derechos Humanos",
-    ],
-    upcomingEvents: [
-      { title: "Foro de Derechos Humanos en Salud", date: "10 Mar 2026", location: "Sala de Conferencias" },
-      { title: "Visita a Albergue de Migrantes", date: "22 Feb 2026", location: "Albergue San Juan" },
-    ],
-    director: {
-      name: "Miguel Ángel Ruiz",
-      role: "Director Local SCORP",
-      socials: { facebook: "#", instagram: "#", email: "scorp@sociema.org" },
-    },
+    description: "SCORP trabaja para promover la paz, los derechos humanos y la asistencia humanitaria.",
+    objectives: "Promover la paz y los derechos humanos, sensibilizando sobre el rol social del médico.",
+    activities: ["Campañas de DDHH", "Apoyo a poblaciones vulnerables"],
+    upcomingEvents: [{ title: "Foro de DDHH", date: "10 Mar 2026", location: "Sala Conferencias" }],
+    instagramWidgetId: "AQUÍ_ID_SCORP",
   },
   scoph: {
     name: "SCOPH",
     fullName: "Standing Committee on Public Health",
-    color: "bg-orange-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-orange-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCOPH se dedica a mejorar la salud pública mediante campañas de prevención, promoción de estilos de vida saludables y concientización sobre enfermedades prevalentes en nuestra comunidad.",
-    objectives: "Mejorar la salud pública mediante campañas de prevención, promoción de estilos de vida saludables y concientización.",
-    activities: [
-      "Campañas de vacunación",
-      "Ferias de salud comunitaria",
-      "Educación sobre enfermedades crónicas",
-      "Promoción de hábitos saludables",
-    ],
-    upcomingEvents: [
-      { title: "Feria de Salud Comunitaria", date: "5 Mar 2026", location: "Plaza Central" },
-      { title: "Campaña de Vacunación", date: "20 Feb 2026", location: "Centro de Salud" },
-    ],
-    director: {
-      name: "Carla Fernández",
-      role: "Directora Local SCOPH",
-      socials: { facebook: "#", instagram: "#", email: "scoph@sociema.org" },
-    },
+    description: "SCOPH se dedica a mejorar la salud pública mediante campañas de prevención y promoción de salud.",
+    objectives: "Mejorar la salud pública mediante prevención y estilos de vida saludables.",
+    activities: ["Campañas de vacunación", "Ferias de salud comunitaria"],
+    upcomingEvents: [{ title: "Feria de Salud", date: "5 Mar 2026", location: "Plaza Central" }],
+    instagramWidgetId: "AQUÍ_ID_SCOPH",
   },
   scope: {
     name: "SCOPE",
     fullName: "Standing Committee on Professional Exchange",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-blue-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCOPE facilita intercambios profesionales clínicos internacionales, permitiendo a los estudiantes enriquecer su formación médica a través de experiencias en diferentes sistemas de salud alrededor del mundo.",
-    objectives: "Facilitar intercambios profesionales clínicos internacionales para enriquecer la formación médica de los estudiantes.",
-    activities: [
-      "Coordinación de intercambios clínicos",
-      "Charlas de experiencias internacionales",
-      "Talleres de preparación para intercambios",
-      "Networking con estudiantes extranjeros",
-    ],
-    upcomingEvents: [
-      { title: "Feria de Intercambios", date: "25 Feb 2026", location: "Auditorio Principal" },
-      { title: "Charla: Mi Experiencia en Alemania", date: "10 Feb 2026", location: "Aula Magna" },
-    ],
-    director: {
-      name: "Diego Vargas",
-      role: "Director Local SCOPE",
-      socials: { facebook: "#", instagram: "#", email: "scope@sociema.org" },
-    },
+    description: "SCOPE facilita intercambios profesionales clínicos internacionales.",
+    objectives: "Facilitar intercambios profesionales para enriquecer la formación médica.",
+    activities: ["Coordinación de intercambios", "Networking"],
+    upcomingEvents: [{ title: "Feria de Intercambios", date: "25 Feb 2026", location: "Auditorio" }],
+    instagramWidgetId: "AQUÍ_ID_SCOPE",
   },
   score: {
     name: "SCORE",
     fullName: "Standing Committee on Research Exchange",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-blue-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCORE promueve intercambios de investigación para desarrollar habilidades científicas y fomentar la colaboración internacional en proyectos de investigación médica.",
-    objectives: "Promover intercambios de investigación para desarrollar habilidades científicas y colaboración internacional.",
-    activities: [
-      "Coordinación de intercambios de investigación",
-      "Talleres de metodología científica",
-      "Presentación de proyectos internacionales",
-      "Colaboración con centros de investigación",
-    ],
-    upcomingEvents: [
-      { title: "Taller de Metodología de Investigación", date: "8 Mar 2026", location: "Laboratorio Central" },
-      { title: "Presentación de Proyectos Internacionales", date: "15 Feb 2026", location: "Sala de Conferencias" },
-    ],
-    director: {
-      name: "Andrea Castillo",
-      role: "Directora Local SCORE",
-      socials: { facebook: "#", instagram: "#", email: "score@sociema.org" },
-    },
+    description: "SCORE promueve intercambios de investigación para desarrollar habilidades científicas.",
+    objectives: "Promover intercambios de investigación y colaboración internacional.",
+    activities: ["Coordinación de intercambios", "Talleres científicos"],
+    upcomingEvents: [{ title: "Taller Metodología", date: "8 Mar 2026", location: "Laboratorio" }],
+    instagramWidgetId: "AQUÍ_ID_SCORE",
   },
   scome: {
     name: "SCOME",
     fullName: "Standing Committee on Medical Education",
-    color: "bg-black-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-zinc-900",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCOME trabaja para mejorar la educación médica mediante innovación pedagógica, capacitación docente y desarrollo curricular, buscando formar mejores profesionales de la salud.",
-    objectives: "Mejorar la educación médica mediante innovación pedagógica, capacitación docente y desarrollo curricular.",
-    activities: [
-      "Talleres de habilidades clínicas",
-      "Capacitación en simulación médica",
-      "Foros sobre educación médica",
-      "Evaluación de programas académicos",
-    ],
-    upcomingEvents: [
-      { title: "Taller de Simulación Clínica", date: "12 Mar 2026", location: "Centro de Simulación" },
-      { title: "Foro: Futuro de la Educación Médica", date: "28 Feb 2026", location: "Auditorio Principal" },
-    ],
-    director: {
-      name: "Fernando Reyes",
-      role: "Director Local SCOME",
-      socials: { facebook: "#", instagram: "#", email: "scome@sociema.org" },
-    },
+    description: "SCOME trabaja para mejorar la educación médica mediante innovación pedagógica.",
+    objectives: "Mejorar la educación médica mediante innovación y capacitación.",
+    activities: ["Habilidades clínicas", "Simulación médica"],
+    upcomingEvents: [{ title: "Taller Simulación", date: "12 Mar 2026", location: "Centro Simulación" }],
+    instagramWidgetId: "520ddec5-2347-4657-9da0-c7fd0b70ae78", // TU ID REAL
   },
   // SOCIMEP Committees
   cpa: {
     name: "CPA",
     fullName: "Comité Permanente Académico",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-blue-800",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPA es responsable de planificar, organizar y ejecutar todas las actividades académicas, científicas y sociales de la sociedad, asegurando su calidad y relevancia.",
-    objectives: "Planificar, organizar y ejecutar actividades académicas, científicas y sociales de la sociedad.",
-    activities: [
-      "Organización de congresos",
-      "Coordinación de eventos académicos",
-      "Gestión de talleres y cursos",
-      "Planificación de actividades sociales",
-    ],
-    upcomingEvents: [
-      { title: "Congreso Científico Anual", date: "20 Abr 2026", location: "Centro de Convenciones" },
-      { title: "Taller de Liderazgo", date: "5 Mar 2026", location: "Auditorio Principal" },
-    ],
-    director: {
-      name: "Valentina Herrera",
-      role: "Directora CPA",
-      socials: { facebook: "#", instagram: "#", email: "cpa@sociema.org" },
-    },
+    description: "Planifica y ejecuta actividades académicas y científicas de la sociedad.",
+    objectives: "Organizar actividades académicas asegurando calidad y relevancia.",
+    activities: ["Congresos", "Cursos especializados"],
+    upcomingEvents: [{ title: "Congreso Anual", date: "20 Abr 2026", location: "Centro Convenciones" }],
+    instagramWidgetId: "AQUÍ_ID_CPA",
   },
   cpc: {
     name: "CPC",
     fullName: "Comité Permanente Científico",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-sky-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPC se encarga de brindar capacitación continua a los miembros en temas de investigación, liderazgo y habilidades blandas necesarias para su desarrollo profesional.",
-    objectives: "Brindar capacitación continua a los miembros en temas de investigación, liderazgo y habilidades blandas.",
-    activities: [
-      "Cursos de metodología de investigación",
-      "Talleres de liderazgo",
-      "Capacitación en redacción científica",
-      "Seminarios de desarrollo profesional",
-    ],
-    upcomingEvents: [
-      { title: "Curso de Redacción Científica", date: "18 Feb 2026", location: "Aula Virtual" },
-      { title: "Seminario de Liderazgo", date: "25 Feb 2026", location: "Sala de Conferencias" },
-    ],
-    director: {
-      name: "Sebastián Morales",
-      role: "Director CPC",
-      socials: { facebook: "#", instagram: "#", email: "cpc@sociema.org" },
-    },
+    description: "Brinda capacitación continua en investigación y liderazgo.",
+    objectives: "Capacitación continua en investigación y habilidades blandas.",
+    activities: ["Metodología", "Redacción científica"],
+    upcomingEvents: [{ title: "Curso Redacción", date: "18 Feb 2026", location: "Virtual" }],
+    instagramWidgetId: "AQUÍ_ID_CPC",
   },
   cppc: {
     name: "CPPC",
     fullName: "Comité Permanente de Publicaciones Científicas",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-indigo-700",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPPC desarrolla actividades de proyección social que impactan positivamente en la comunidad, acercando los servicios de salud a las poblaciones más necesitadas.",
-    objectives: "Desarrollar actividades de proyección social que impacten positivamente en la comunidad.",
-    activities: [
-      "Campañas de salud comunitaria",
-      "Educación sanitaria en colegios",
-      "Atención médica en zonas rurales",
-      "Jornadas de despistaje",
-    ],
-    upcomingEvents: [
-      { title: "Campaña de Salud en Zona Rural", date: "8 Mar 2026", location: "Comunidad San Pedro" },
-      { title: "Charla de Salud en Colegio", date: "22 Feb 2026", location: "I.E. San Martín" },
-    ],
-    director: {
-      name: "Camila Rojas",
-      role: "Directora CPPC",
-      socials: { facebook: "#", instagram: "#", email: "cppc@sociema.org" },
-    },
+    description: "Desarrolla actividades de proyección social e impacto comunitario.",
+    objectives: "Proyección social que impacte positivamente en la comunidad.",
+    activities: ["Campañas rurales", "Educación en colegios"],
+    upcomingEvents: [{ title: "Campaña Rural", date: "8 Mar 2026", location: "San Pedro" }],
+    instagramWidgetId: "AQUÍ_ID_CPPC",
   },
   cpdii: {
     name: "CPDII",
     fullName: "Comité Permanente de Difusión e Imagen Institucional",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-slate-700",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPDII gestiona la comunicación y la imagen institucional de la sociedad científica, manejando las redes sociales y el diseño de material promocional.",
-    objectives: "Gestionar la comunicación y la imagen institucional de la sociedad científica.",
-    activities: [
-      "Manejo de redes sociales",
-      "Diseño de material promocional",
-      "Cobertura de eventos",
-      "Relaciones públicas",
-    ],
-    upcomingEvents: [
-      { title: "Taller de Diseño Gráfico", date: "15 Feb 2026", location: "Laboratorio de Cómputo" },
-      { title: "Sesión de Fotografía Institucional", date: "10 Feb 2026", location: "Campus" },
-    ],
-    director: {
-      name: "Daniela Guzmán",
-      role: "Directora CPDII",
-      socials: { facebook: "#", instagram: "#", email: "cpdii@sociema.org" },
-    },
+    description: "Gestiona la comunicación e imagen de la sociedad científica.",
+    objectives: "Manejo de redes sociales y diseño institucional.",
+    activities: ["Redes Sociales", "Diseño"],
+    upcomingEvents: [{ title: "Taller Diseño", date: "15 Feb 2026", location: "Laboratorio" }],
+    instagramWidgetId: "AQUÍ_ID_CPDII",
   },
   cprii: {
     name: "CPRII",
     fullName: "Comité Permanente de Relaciones Interinstitucionales e Intercambios",
-    color: "bg-blue-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-cyan-700",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPRII establece y mantiene relaciones con otras instituciones nacionales e internacionales, gestionando convenios y representación institucional.",
-    objectives: "Establecer y mantener relaciones con otras instituciones nacionales e internacionales.",
-    activities: [
-      "Convenios interinstitucionales",
-      "Gestión de intercambios",
-      "Participación en redes científicas",
-      "Representación institucional",
-    ],
-    upcomingEvents: [
-      { title: "Firma de Convenio con SOCIMEP", date: "20 Mar 2026", location: "Rectorado" },
-      { title: "Reunión con Sociedad Hermana", date: "5 Mar 2026", location: "Virtual" },
-    ],
-    director: {
-      name: "Alejandro Vega",
-      role: "Director CPRII",
-      socials: { facebook: "#", instagram: "#", email: "cprii@sociema.org" },
-    },
+    description: "Mantiene relaciones con instituciones nacionales e internacionales.",
+    objectives: "Establecer convenios y representación institucional.",
+    activities: ["Convenios", "Relaciones externas"],
+    upcomingEvents: [{ title: "Firma Convenio", date: "20 Mar 2026", location: "Rectorado" }],
+    instagramWidgetId: "AQUÍ_ID_CPRII",
   },
   cpais: {
     name: "CPAIS",
     fullName: "Comité Permanente de Atención Integral en Salud",
-    color: "bg-yellow-600", // Color distintivo
-    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070", // Imagen de ejemplo
+    color: "bg-amber-600",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "SOCIMEP",
-    description: "El CPAIS promueve y asesora proyectos de investigación en salud entre los miembros de la sociedad, brindando soporte metodológico y estadístico.",
-    objectives: "Promover y asesorar proyectos de investigación en salud entre los miembros de la sociedad.",
-    activities: [
-      "Asesoría de proyectos de investigación",
-      "Revisión de protocolos",
-      "Talleres de análisis estadístico",
-      "Publicación de artículos científicos",
-    ],
-    upcomingEvents: [
-      { title: "Taller de SPSS", date: "12 Feb 2026", location: "Laboratorio de Cómputo" },
-      { title: "Asesoría Grupal de Proyectos", date: "18 Feb 2026", location: "Sala de Reuniones" },
-    ],
-    director: {
-      name: "Isabella Mendoza",
-      role: "Directora CPAIS",
-      socials: { facebook: "#", instagram: "#", email: "cpais@sociema.org" },
-    },
+    description: "Promueve y asesora proyectos de investigación en salud.",
+    objectives: "Soporte metodológico y estadístico en investigación.",
+    activities: ["Asesoría proyectos", "Análisis SPSS"],
+    upcomingEvents: [{ title: "Taller SPSS", date: "12 Feb 2026", location: "Cómputo" }],
+    instagramWidgetId: "AQUÍ_ID_CPAIS",
   },
 }
 
@@ -309,18 +165,16 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
 
   if (!committee) notFound()
 
-    // BUSCAMOS LOS DIRECTORES EN SUPABASE USANDO EL SLUG
-    const { data: directors } = await supabase
-      .from("committee_directors")
-      .select("*")
-      .eq("slug", slug)
+  // BUSCAMOS LOS DIRECTORES EN SUPABASE USANDO EL SLUG
+  const { data: directors } = await supabase
+    .from("committee_directors")
+    .select("*")
+    .eq("slug", slug)
 
   return (
     <>
       {/* Hero Section */}
-      
-<section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
-        {/* Imagen de fondo con opacidad para que el texto sea legible */}
+      <section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
         {committee.coverImage && (
           <div 
             className="absolute inset-0 z-0 opacity-30 bg-cover bg-center" 
@@ -351,12 +205,10 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Main Content */}
             <div className="space-y-8 lg:col-span-2">
-              {/* Objectives */}
               <Card className="border-2 border-border bg-card">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-card-foreground">
-                    <Target className="h-5 w-5 text-primary" />
-                    Objetivos
+                    <Target className="h-5 w-5 text-primary" /> Objetivos
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -364,12 +216,10 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
                 </CardContent>
               </Card>
 
-              {/* Activities */}
               <Card className="border-2 border-border bg-card">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-card-foreground">
-                    <Users className="h-5 w-5 text-secondary" />
-                    Actividades Principales
+                    <Users className="h-5 w-5 text-secondary" /> Actividades Principales
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -384,12 +234,10 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
                 </CardContent>
               </Card>
 
-              {/* Upcoming Events */}
               <Card className="border-2 border-border bg-card">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-card-foreground">
-                    <Calendar className="h-5 w-5 text-primary" />
-                    Próximos Eventos
+                    <Calendar className="h-5 w-5 text-primary" /> Próximos Eventos
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -399,19 +247,11 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
                         <div>
                           <h4 className="font-medium text-foreground">{event.title}</h4>
                           <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="h-3 w-3" />
-                              {event.date}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-3 w-3" />
-                              {event.location}
-                            </span>
+                            <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {event.date}</span>
+                            <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {event.location}</span>
                           </div>
                         </div>
-                        <Button size="sm" variant="outline" className="mt-2 sm:mt-0 bg-transparent">
-                          Ver más
-                        </Button>
+                        <Button size="sm" variant="outline" className="mt-2 sm:mt-0 bg-transparent">Ver más</Button>
                       </div>
                     ))}
                   </div>
@@ -419,37 +259,63 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
               </Card>
             </div>
 
-           {/* Columna Derecha: DIRECTORES DINÁMICOS */}
-          <div className="lg:col-span-1 space-y-4">
-            <h3 className="font-bold text-xl text-primary">Equipo Directivo</h3>
-            {directors && directors.length > 0 ? (
-              directors.map((dir) => (
-                <Card key={dir.id}>
-                  <CardContent className="pt-6 text-center">
-                    <div className="w-20 h-20 bg-primary rounded-full mx-auto mb-4 overflow-hidden">
-                      {dir.image_url ? (
-                        <img src={dir.image_url} alt={dir.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="h-full flex items-center justify-center text-white font-bold text-xl">
-                          {dir.name.charAt(0)}
-                        </div>
-                      )}
-                    </div>
-                    <h4 className="font-bold">{dir.name}</h4>
-                    <p className="text-sm text-muted-foreground">{dir.role}</p>
-                    <div className="flex justify-center gap-2 mt-3">
-                      {dir.email && <Link href={`mailto:${dir.email}`}><Mail className="h-4 w-4 text-muted-foreground hover:text-primary"/></Link>}
-                      {dir.instagram && <Link href={dir.instagram}><Instagram className="h-4 w-4 text-muted-foreground hover:text-primary"/></Link>}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <p className="text-muted-foreground italic">Puesto en convocatoria</p>
-            )}
+            {/* Columna Derecha: DIRECTORES DINÁMICOS */}
+            <div className="lg:col-span-1 space-y-4">
+              <h3 className="font-bold text-xl text-primary uppercase tracking-tighter">Equipo Directivo</h3>
+              {directors && directors.length > 0 ? (
+                directors.map((dir) => (
+                  <Card key={dir.id} className="overflow-hidden">
+                    <CardContent className="pt-6 text-center">
+                      <div className="w-20 h-20 bg-slate-100 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/10">
+                        {dir.image_url ? (
+                          <img src={dir.image_url} alt={dir.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-primary font-bold text-xl uppercase">
+                            {dir.name.charAt(0)}
+                          </div>
+                        )}
+                      </div>
+                      <h4 className="font-bold">{dir.name}</h4>
+                      <p className="text-xs text-primary font-semibold uppercase">{dir.role}</p>
+                      <div className="flex justify-center gap-2 mt-4">
+                        {dir.email && <Link href={`mailto:${dir.email}`} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Mail className="h-4 w-4"/></Link>}
+                        {dir.instagram && <Link href={dir.instagram} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Instagram className="h-4 w-4"/></Link>}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <div className="p-6 border-2 border-dashed rounded-2xl text-center text-muted-foreground">
+                  Puesto en convocatoria
+                </div>
+              )}
+            </div>
           </div>
         </div>
-       </div>
+      </section>
+
+      {/* --- SECCIÓN DE INSTAGRAM ELFSIGHT --- */}
+      <section className="py-20 bg-white border-t border-slate-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-black uppercase tracking-tight flex items-center justify-center gap-3">
+              <Instagram className="text-pink-500 h-8 w-8" /> 
+              Sigue nuestra actividad
+            </h2>
+            <p className="text-muted-foreground mt-2 font-medium italic">Mira lo último de {committee.name} en redes sociales</p>
+          </div>
+          
+          {/* El div del widget ahora es DINÁMICO */}
+          <div className={`elfsight-app-${committee.instagramWidgetId}`} data-elfsight-app-lazy></div>
+          
+          <div className="mt-12 text-center">
+             <Button asChild variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5">
+                <Link href="#" target="_blank">
+                  Ver perfil oficial de Instagram
+                </Link>
+             </Button>
+          </div>
+        </div>
       </section>
     </>
   )

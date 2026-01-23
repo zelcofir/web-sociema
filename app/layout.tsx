@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -28,7 +29,14 @@ export default function RootLayout({
         </main>
         <Footer />
         <Analytics />
+      {/* ENLACE DE ELFSIGHT */}
+        <Script 
+          src="https://static.elfsight.com/platform/platform.js" 
+          data-use-service-core 
+          defer 
+        />
       </body>
     </html>
   )
 }
+
