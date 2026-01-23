@@ -13,7 +13,7 @@ const historyEvents = [
   {
     year: "27 de agosto de 1992",
     title: "Fundación de SOCIPEM (actual SOCIMEP)",
-    description: "SOCIEMSA-UNSA participa como sociedad fundadora de la SOCIPEM, evolucionando a lo que hoy conocemos como la Sociedad Científica Médico Estudiantil Peruana.",
+    description: "SOCIEMSA-UNSA participa como sociedad fundadora de la SOCIPEM, evolucionando a lo que hoy conocemos como la Sociedad Científica Médico Estudiantil Peruana (SOCIMEP).",
     icon: <Flag className="h-6 w-6" />,
     color: "bg-red-600",
   },
@@ -27,7 +27,7 @@ const historyEvents = [
   {
     year: "Actualidad",
     title: "Liderazgo Científico",
-    description: "Consolidados como una de las sociedades referentes del país, liderando investigación, pasantías y proyección social.",
+    description: "Consolidados como una de las sociedades referentes del país, liderando investigación, pasantías y proyección social, siendo titulares a nivel de IFMSA-PERU y SOCIMEP por más de 5 años consecutivos.",
     icon: <Award className="h-6 w-6" />,
     color: "bg-emerald-500",
   },
@@ -84,7 +84,7 @@ export default function HistoryTimeline() {
           <BookOpen className="h-10 w-10 mx-auto mb-4 text-blue-400" />
           <h3 className="text-2xl font-bold mb-4">¿Quieres conocer más detalles?</h3>
           <p className="text-slate-300 mb-8 leading-relaxed">
-            Puedes profundizar en nuestros hitos y la evolución de la investigación estudiantil en el 
+            Puedes profundizar en más hitos de nuestra historia en el 
             <span className="font-semibold text-white"> "Libro de Memorias SOCIMEP - 25 años"</span>, donde se detalla el papel fundamental de nuestra sociedad desde su fundación.
           </p>
           <Button asChild className="rounded-full bg-blue-600 hover:bg-blue-500 text-white px-10 py-6 text-lg font-bold transition-all hover:shadow-lg hover:shadow-blue-500/25">
