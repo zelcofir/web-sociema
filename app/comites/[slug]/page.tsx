@@ -80,6 +80,18 @@ const allCommittees = {
     upcomingEvents: [{ title: "Taller Simulación", date: "12 Mar 2026", location: "Centro Simulación" }],
     instagramWidgetId: "520ddec5-2347-4657-9da0-c7fd0b70ae78", // TU ID REAL
   },
+  sccb: {
+    name: "SCCB",
+    fullName: "Standing Committee of Capacity Building",
+    color: "bg-zinc-900",
+    coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
+    organization: "IFMSA",
+    description: "SCOME trabaja para mejorar las habilidades blandas y duras.",
+    objectives: "Mejorar habilidades blandas y duras para el futuro desempeño prefesional",
+    activities: ["Rainbow camps", "Entrenamientos", "Workshops", "Leadership development"],
+    upcomingEvents: [{ title: "Taller Simulación", date: "12 Mar 2026", location: "Centro Simulación" }],
+    instagramWidgetId: "520ddec5-2347-4657-9da0-c7fd0b70ae78", // TU ID REAL
+  },
   // SOCIMEP Committees
   cpa: {
     name: "CPA",
@@ -298,7 +310,7 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
       <section className="py-20 bg-white border-t border-slate-100">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-black uppercase tracking-tight flex items-center justify-center gap-3">
+            <h2 className="text-3xl font-black flex items-center justify-center gap-3">
               <Instagram className="text-pink-500 h-8 w-8" /> 
               Sigue nuestra actividad
             </h2>

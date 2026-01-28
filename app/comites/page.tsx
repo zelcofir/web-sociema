@@ -70,6 +70,16 @@ const ifmsaCommittees = [
     objectives: "Mejorar la educación médica mediante innovación pedagógica, capacitación docente y desarrollo curricular.",
     activities: ["Talleres de habilidades", "Simulación médica", "Foros educativos", "Evaluación académica"],
   },
+  {
+    name: "SCCB",
+    slug: "sccb",
+    logo: "/logos/sccb.png",
+    instagram: "https://www.instagram.com/sccb.sociema/",
+    facebook: "#",
+    fullName: "Standing Committee of Capacity Building",
+    objectives: "Mejorar habilidades blandas y duras para el futuro desempeño prefesional",
+    activities: ["Rainbow camps", "Entrenamientos", "Workshops", "Leadership development"],
+  },
 ]
 
 const socimepCommittees = [
@@ -190,7 +200,7 @@ function CommitteeCard({ committee }: { committee: any }) {
         {/* CARA B: DETALLES */}
         <Card className="absolute inset-0 flex flex-col border-2 border-primary bg-card [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <CardHeader className="flex flex-row items-center justify-between py-4 border-b bg-muted/30">
-            <span className="font-bold text-sm text-primary uppercase tracking-wider">Información</span>
+            <span className="font-bold text-sm text-primary">Información</span>
             <Button variant="ghost" size="sm" onClick={() => setIsFlipped(false)} className="h-8 text-xs font-bold">
               Volver
             </Button>
@@ -226,7 +236,7 @@ export default function ComitesPage() {
     <div className="min-h-screen bg-background">
       <section className="bg-primary py-16 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl uppercase tracking-tighter">
+          <h1 className="mb-4 text-4xl font-bold text-primary-foreground md:text-5xl">
             Nuestros Comités
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-primary-foreground/90 font-medium">
