@@ -29,7 +29,23 @@ export default function RootLayout({
         </main>
         <Footer />
         <Analytics />
-      {/* ENLACE DE ELFSIGHT */}
+
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-THPYM3Q3MH"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-THPYM3Q3MH');
+          `}
+        </Script>
+
+        {/* ENLACE DE ELFSIGHT */}
         <Script 
           src="https://static.elfsight.com/platform/platform.js" 
           data-use-service-core 
@@ -39,4 +55,3 @@ export default function RootLayout({
     </html>
   )
 }
-
