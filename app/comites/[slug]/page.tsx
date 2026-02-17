@@ -18,7 +18,7 @@ const allCommittees = {
     objectives: "Promover la salud sexual y reproductiva mediante educación y sensibilización.",
     activities: ["Campañas de educación sexual", "Talleres sobre prevención de ITS", "Charlas sobre derechos reproductivos"],
     upcomingEvents: [{ title: "Taller de ESI", date: "15 Feb 2026", location: "Auditorio Principal" }],
-    instagramWidgetId: "AQUÍ_ID_SCORA", 
+    instagramWidgetId: "AQUÍ_ID_SCORA",
   },
   scorp: {
     name: "SCORP",
@@ -178,22 +178,38 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
   if (!committee) notFound()
 
   // BUSCAMOS LOS DIRECTORES EN SUPABASE USANDO EL SLUG
-  const { data: directors } = await supabase
+  const { data: directorsData } = await supabase
     .from("committee_directors")
     .select("*")
     .eq("slug", slug)
+
+  // BUSCAMOS TAMBIÉN LOS MIEMBROS DEL EQUIPO PARA COMPLETAR IMÁGENES FALTANTES
+  const { data: teamMembers } = await supabase
+    .from("team_members")
+    .select("name, image_url")
+
+  // Crear mapa de imágenes por nombre (normalizado a minúsculas para mejor coincidencia)
+  const memberImages = new Map(
+    teamMembers?.map(m => [m.name.toLowerCase().trim(), m.image_url]) || []
+  )
+
+  // Combinar datos: si el director no tiene foto, buscar en team_members
+  const directors = directorsData?.map(dir => ({
+    ...dir,
+    image_url: dir.image_url || memberImages.get(dir.name.toLowerCase().trim()) || null
+  }))
 
   return (
     <>
       {/* Hero Section */}
       <section className={`relative overflow-hidden py-20 md:py-32 ${committee.color || 'bg-primary'}`}>
         {committee.coverImage && (
-          <div 
-            className="absolute inset-0 z-0 opacity-30 bg-cover bg-center" 
+          <div
+            className="absolute inset-0 z-0 opacity-30 bg-cover bg-center"
             style={{ backgroundImage: `url(${committee.coverImage})` }}
           />
         )}
-        
+
         <div className="container relative z-10 mx-auto px-4">
           <Link href="/comites" className="mb-6 inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Volver a Comités
@@ -290,8 +306,8 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
                       <h4 className="font-bold">{dir.name}</h4>
                       <p className="text-xs text-primary font-semibold uppercase">{dir.role}</p>
                       <div className="flex justify-center gap-2 mt-4">
-                        {dir.email && <Link href={`mailto:${dir.email}`} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Mail className="h-4 w-4"/></Link>}
-                        {dir.instagram && <Link href={dir.instagram} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Instagram className="h-4 w-4"/></Link>}
+                        {dir.email && <Link href={`mailto:${dir.email}`} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Mail className="h-4 w-4" /></Link>}
+                        {dir.instagram && <Link href={dir.instagram} className="p-2 bg-slate-50 rounded-full hover:bg-primary hover:text-white transition-colors"><Instagram className="h-4 w-4" /></Link>}
                       </div>
                     </CardContent>
                   </Card>
@@ -311,21 +327,21 @@ export default async function CommitteePage({ params }: { params: Promise<{ slug
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-black flex items-center justify-center gap-3">
-              <Instagram className="text-pink-500 h-8 w-8" /> 
+              <Instagram className="text-pink-500 h-8 w-8" />
               Sigue nuestra actividad
             </h2>
             <p className="text-muted-foreground mt-2 font-medium italic">Mira lo último de {committee.name} en redes sociales</p>
           </div>
-          
+
           {/* El div del widget ahora es DINÁMICO */}
           <div className={`elfsight-app-${committee.instagramWidgetId}`} data-elfsight-app-lazy></div>
-          
+
           <div className="mt-12 text-center">
-             <Button asChild variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5">
-                <Link href="#" target="_blank">
-                  Ver perfil oficial de Instagram
-                </Link>
-             </Button>
+            <Button asChild variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5">
+              <Link href="#" target="_blank">
+                Ver perfil oficial de Instagram
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

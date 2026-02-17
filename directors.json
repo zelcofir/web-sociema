@@ -1,0 +1,67 @@
+[
+  {
+    "id": 7,
+    "name": "Unknown",
+    "slug": "cpdii",
+    "image_url": null,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null,
+    "created_at": "2026-01-21T21:35:45.055657+00:00",
+    "role": "Director CPDII",
+    "committee": "CPDII"
+  },
+  {
+    "id": 8,
+    "name": "Unknown1",
+    "slug": "cprii",
+    "image_url": null,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null,
+    "created_at": "2026-01-21T21:37:20.139009+00:00",
+    "role": "Director CPRII",
+    "committee": "CPRII"
+  },
+  {
+    "id": 9,
+    "name": "Po",
+    "slug": "scome",
+    "image_url": null,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null,
+    "created_at": "2026-01-21T21:38:01.148336+00:00",
+    "role": "LOME",
+    "committee": "SCOME"
+  },
+  {
+    "id": 10,
+    "name": "Naranja",
+    "slug": "scoph",
+    "image_url": null,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null,
+    "created_at": "2026-01-21T21:38:16.092049+00:00",
+    "role": "LPO",
+    "committee": "SCOPH"
+  },
+  {
+    "id": 11,
+    "name": "Paloma",
+    "slug": "scora",
+    "image_url": null,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null,
+    "created_at": "2026-01-21T21:38:28.005123+00:00",
+    "role": "LORA",
+    "committee": "SCORA"
+  }
+]
