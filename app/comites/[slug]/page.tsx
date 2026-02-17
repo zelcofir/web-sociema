@@ -86,9 +86,9 @@ const allCommittees = {
     color: "bg-zinc-900",
     coverImage: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070",
     organization: "IFMSA",
-    description: "SCOME trabaja para mejorar las habilidades blandas y duras.",
+    description: "SCCB trabaja para mejorar las habilidades blandas y duras.",
     objectives: "Mejorar habilidades blandas y duras para el futuro desempeño prefesional",
-    activities: ["Rainbow camps", "Entrenamientos", "Workshops", "Leadership development"],
+    activities: ["Entrenamientos", "Workshops", "Leadership development"],
     upcomingEvents: [{ title: "Taller Simulación", date: "12 Mar 2026", location: "Centro Simulación" }],
     instagramWidgetId: "520ddec5-2347-4657-9da0-c7fd0b70ae78", // TU ID REAL
   },
