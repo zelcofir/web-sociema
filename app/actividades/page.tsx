@@ -40,11 +40,11 @@ export default function ActividadesPage() {
 
   // --- CONFIGURACIÓN DE UI ---
   const galleryPhotos = [
-    { url: "/activities/act1.png", caption: "Tú PreVIHenes" },
+    { url: "/activities/ejemplo.jpg", caption: "Tú PreVIHenes" },
     { url: "/activities/act2.png", caption: " " },
-    { url: "/activities/act4.png", caption: " " },
-    { url: "/activities/act5.png", caption: " " },
-    { url: "/activities/act6.png", caption: " " },
+    { url: "/activities/ejemplo2.jpg", caption: " " },
+    { url: "/activities/ejemplo3.png", caption: " " },
+    { url: "/activities/ejemplo3.png", caption: " " },
   ]
 
   const categoryColors: Record<string, string> = {

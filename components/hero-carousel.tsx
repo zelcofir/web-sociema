@@ -12,7 +12,7 @@ const slides = [
     subtitle: "Sociedad Científica de Estudiantes de Medicina Agustinos",
     description: "Investigación, academia y servicio a la comunidad.",
     bgColor: "#00529b",
-    image: "/slide1.png",
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070", // /slide1.jpg
     buttonText: "Conócenos",
     buttonLink: "/nosotros",
     icon: <Info className="mr-2 h-4 w-4" />
