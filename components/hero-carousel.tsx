@@ -12,7 +12,7 @@ const slides = [
     subtitle: "Sociedad Científica de Estudiantes de Medicina Agustinos",
     description: "Investigación, academia y servicio a la comunidad.",
     bgColor: "#00529b",
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070", // /slide1.jpg
+    image: "/slide1.png", // /slide1.jpg
     buttonText: "Conócenos",
     buttonLink: "/nosotros",
     icon: <Info className="mr-2 h-4 w-4" />
@@ -39,7 +39,8 @@ const slides = [
     buttonLink: "/noticias",
     icon: <Calendar className="mr-2 h-4 w-4" />
   },
-  {id: 4,
+  {
+    id: 4,
     title: "Proyección Social",
     subtitle: "Salud y educación para todos",
     description: "Llevamos salud a las comunidades que más lo necesitan",
@@ -94,9 +95,9 @@ export function HeroCarousel() {
             {/* Fondo con Imagen y Overlay */}
             {slide.image && (
               <>
-                <div 
+                <div
                   className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[10000ms] ease-linear"
-                  style={{ 
+                  style={{
                     backgroundImage: `url(${slide.image})`,
                     transform: index === currentSlide ? 'scale(1.1)' : 'scale(1)' // Efecto de zoom suave
                   }}
@@ -106,9 +107,8 @@ export function HeroCarousel() {
             )}
 
             {/* Contenido Animado */}
-            <div className={`relative z-20 flex flex-col items-center transition-all duration-1000 ${
-              index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}>
+            <div className={`relative z-20 flex flex-col items-center transition-all duration-1000 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}>
               <h1 className="mb-4 text-4xl font-bold text-white md:text-7xl drop-shadow-2xl">
                 {slide.title}
               </h1>
@@ -118,11 +118,11 @@ export function HeroCarousel() {
               <p className="mb-8 max-w-2xl text-lg text-white/80 leading-relaxed">
                 {slide.description}
               </p>
-              
+
               {/* BOTÓN INTERACTIVO */}
               <Link href={slide.buttonLink}>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-white text-primary hover:bg-secondary hover:text-white transition-all duration-300 rounded-full px-8 py-6 text-lg font-bold shadow-xl group"
                 >
                   {slide.icon}
@@ -160,9 +160,8 @@ export function HeroCarousel() {
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`h-2 rounded-full transition-all duration-500 ${
-              index === currentSlide ? "bg-white w-12" : "bg-white/30 w-3 hover:bg-white/50"
-            }`}
+            className={`h-2 rounded-full transition-all duration-500 ${index === currentSlide ? "bg-white w-12" : "bg-white/30 w-3 hover:bg-white/50"
+              }`}
             onClick={() => setCurrentSlide(index)}
           />
         ))}

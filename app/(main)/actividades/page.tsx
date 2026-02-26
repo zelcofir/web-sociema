@@ -40,11 +40,11 @@ export default function ActividadesPage() {
 
   // --- CONFIGURACIÓN DE UI ---
   const galleryPhotos = [
-    { url: "/activities/ejemplo.jpg", caption: "Tú PreVIHenes" },
+    { url: "/activities/act1.png", caption: "Tú PreVIHenes" },
     { url: "/activities/act2.png", caption: " " },
-    { url: "/activities/ejemplo2.jpg", caption: " " },
-    { url: "/activities/ejemplo3.png", caption: " " },
-    { url: "/activities/ejemplo3.png", caption: " " },
+    { url: "/activities/act3.png", caption: " " },
+    { url: "/activities/act4.png", caption: " " },
+    { url: "/activities/act5.png", caption: " " },
   ]
 
   const categoryColors: Record<string, string> = {
@@ -58,7 +58,7 @@ export default function ActividadesPage() {
   const [currentPhoto, setCurrentPhoto] = useState(0);
   const nextPhoto = () => setCurrentPhoto((prev) => (prev + 1) % galleryPhotos.length);
   const prevPhoto = () => setCurrentPhoto((prev) => (prev - 1 + galleryPhotos.length) % galleryPhotos.length);
-  
+
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const nextSlide = useCallback(() => {
@@ -104,9 +104,9 @@ export default function ActividadesPage() {
               <Star className="text-amber-500 fill-amber-500" />
               <h2 className="text-3xl font-bold">Eventos Principales</h2>
             </div>
-            
+
             <div className="relative h-[450px] w-full overflow-hidden rounded-[2rem] shadow-2xl md:h-[550px]">
-              <div 
+              <div
                 className="flex h-full transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
@@ -115,7 +115,7 @@ export default function ActividadesPage() {
                     {/* USANDO imagen_url EN ESPAÑOL */}
                     <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${slide.imagen_url})` }} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                    
+
                     <div className="absolute bottom-0 left-0 p-8 md:p-16 text-white w-full">
                       <Badge className={`${categoryColors[slide.categoria] || "bg-primary"} mb-4 text-md px-4 py-1`}>
                         {slide.categoria}
@@ -154,7 +154,7 @@ export default function ActividadesPage() {
         {/* CALENDARIO GENERAL (GRID) */}
         <div className="space-y-8">
           <h2 className="text-3xl font-bold text-foreground flex items-center gap-3">
-             <Calendar className="text-primary" /> Próximas Fechas
+            <Calendar className="text-primary" /> Próximas Fechas
           </h2>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -184,7 +184,7 @@ export default function ActividadesPage() {
             ))}
           </div>
         </div>
-        
+
         {/* GALERÍA DE COMUNIDAD */}
         <div className="mt-24 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-2xl border-4 border-primary/20">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 text-center md:text-left">
@@ -206,8 +206,8 @@ export default function ActividadesPage() {
 
           <div className="relative group">
             <div className="overflow-hidden rounded-2xl aspect-video md:h-[500px] w-full bg-black">
-              <img 
-                src={galleryPhotos[currentPhoto].url} 
+              <img
+                src={galleryPhotos[currentPhoto].url}
                 alt="Galería SOCIEMA"
                 className="w-full h-full object-cover transition-all duration-700 ease-in-out hover:scale-105"
               />
@@ -219,13 +219,13 @@ export default function ActividadesPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-center gap-2 mt-6">
             {galleryPhotos.map((_, i) => (
-              <button 
-                key={i} 
+              <button
+                key={i}
                 onClick={() => setCurrentPhoto(i)}
-                className={`h-2 transition-all rounded-full ${currentPhoto === i ? "bg-primary w-10" : "bg-slate-700 w-2 hover:bg-slate-600"}`} 
+                className={`h-2 transition-all rounded-full ${currentPhoto === i ? "bg-primary w-10" : "bg-slate-700 w-2 hover:bg-slate-600"}`}
               />
             ))}
           </div>

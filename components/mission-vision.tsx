@@ -43,7 +43,7 @@ export function MissionVision() {
           {/* Imagen Grande (Principal) */}
           <div className="relative aspect-square overflow-hidden rounded-lg bg-primary/10 md:col-span-2 md:row-span-2">
             <Image
-              src="/activities/ejemplo.jpg" // Cambia por tu archivo en /public
+              src="/activities/act1.png" // Cambia por tu archivo en /public
               alt="Reunión académica"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"
@@ -57,7 +57,7 @@ export function MissionVision() {
           {/* Imagen Pequeña 1 */}
           <div className="relative aspect-square overflow-hidden rounded-lg bg-secondary/20">
             <Image
-              src="/activities/ejemplo2.jpg" // Cambia por tu archivo en /public
+              src="/activities/act4.png" // Cambia por tu archivo en /public
               alt="Congresos"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"
@@ -70,7 +70,7 @@ export function MissionVision() {
           {/* Imagen Pequeña 2 */}
           <div className="relative aspect-square overflow-hidden rounded-lg bg-primary/5">
             <Image
-              src="/activities/ejemplo3.png" // Cambia por tu archivo en /public
+              src="/activities/act5.png" // Cambia por tu archivo en /public
               alt="Conferencia"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"

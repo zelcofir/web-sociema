@@ -17,7 +17,7 @@ const featuredActivities = [
   },
   {
     id: 2,
-    title: "Jornada Científica Regional Sur (JCRS 2026)",
+    title: "Jornada Científica Regional Sur (JCRS 2021)",
     category: "Evento Regional",
     date: "06 al 08 de Marzo 2026",
     location: "Arequipa (Sede UNSA)",
@@ -39,7 +39,7 @@ export function ActivityCarousel() {
 
   return (
     <div className="relative h-[450px] w-full overflow-hidden rounded-[2rem] shadow-2xl md:h-[550px]">
-      <div 
+      <div
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
@@ -47,7 +47,7 @@ export function ActivityCarousel() {
           <div key={slide.id} className="relative h-full min-w-full">
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${slide.image})` }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            
+
             <div className="absolute bottom-0 left-0 p-8 md:p-16 text-white w-full">
               <Badge className="mb-4 bg-amber-500 text-white border-none text-md px-4 py-1">
                 {slide.category}
