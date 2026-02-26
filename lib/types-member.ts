@@ -6,6 +6,7 @@ export interface MemberPoints {
     organizador: number;
     total: number;
     estado: string;
+    correo?: string;
 }
 
 export interface Endorsement {

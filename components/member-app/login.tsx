@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Papa from 'papaparse';
 import { MemberPoints } from '@/lib/types-member';
+import { createClient } from '@/lib/client';
 
 interface LoginProps {
     onLogin: (member: MemberPoints) => void;
 }
 
 export const Login = ({ onLogin }: LoginProps) => {
+    const supabase = createClient();
     const [dni, setDni] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -50,11 +52,30 @@ export const Login = ({ onLogin }: LoginProps) => {
                         Papa.parse(pointsText, {
                             header: true,
                             skipEmptyLines: true,
-                            complete: (pointsResults) => {
+                            complete: async (pointsResults) => {
                                 const pointsDataList = pointsResults.data as any[];
                                 const pointsData = pointsDataList.find((row) =>
                                     (row['DNI'] || '').toString().trim() === dni.trim()
                                 );
+
+                                // 3. Check if this DNI has a linked email in Supabase
+                                let linkedEmail = undefined;
+                                try {
+                                    const { data: profile } = await supabase
+                                        .from('profiles')
+                                        .select('id')
+                                        .eq('dni', dni.trim())
+                                        .single();
+
+                                    if (profile) {
+                                        const { data: { user: sbUser } } = await supabase.auth.getUser();
+                                        if (sbUser?.email) {
+                                            linkedEmail = sbUser.email;
+                                        }
+                                    }
+                                } catch (sbErr) {
+                                    console.error('Supabase check failed:', sbErr);
+                                }
 
                                 const finalUser: MemberPoints = {
                                     dni: dni.trim(),
@@ -63,7 +84,8 @@ export const Login = ({ onLogin }: LoginProps) => {
                                     ponente: parseInt(pointsData?.['Puntos Ponente']) || 0,
                                     organizador: parseInt(pointsData?.['Puntos Organizador']) || 0,
                                     total: parseInt(pointsData?.['Total acumulado']) || 0,
-                                    estado: masterUser['Estado de Miembro'] || pointsData?.['Estado de Miembro'] || 'Aspirante'
+                                    estado: masterUser['Estado de Miembro'] || pointsData?.['Estado de Miembro'] || 'Aspirante',
+                                    correo: linkedEmail
                                 };
 
                                 onLogin(finalUser);

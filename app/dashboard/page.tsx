@@ -11,21 +11,73 @@ import { EventsCalendar } from '@/components/member-app/events-calendar';
 import { ProfileSection } from '@/components/member-app/profile-section';
 import Image from 'next/image';
 import { Search, Bell } from 'lucide-react';
+import { createClient } from '@/lib/client';
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 export default function DashboardPage() {
     const router = useRouter();
+    const supabase = createClient();
     const [user, setUser] = useState<MemberPoints | null>(null);
     const [activeTab, setActiveTab] = useState<AppTab>('home');
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
+        let mounted = true;
         setIsClient(true);
         const savedUser = localStorage.getItem('sociema_user');
         if (!savedUser) {
             router.push('/login');
-        } else {
-            setUser(JSON.parse(savedUser));
+            return;
         }
+
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+
+        // Supabase Auth Listener for Email Linking
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
+            console.log('Auth event:', event, session?.user?.email);
+            if (!mounted) return;
+
+            if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
+                const email = session.user.email;
+                if (email) {
+                    console.log('Validating session for email:', email);
+                    // Update local storage and state
+                    const updatedUser = { ...parsedUser, correo: email };
+                    setUser(updatedUser);
+                    localStorage.setItem('sociema_user', JSON.stringify(updatedUser));
+
+                    // Synchronize with Supabase profiles table
+                    try {
+                        const { error } = await supabase
+                            .from('profiles')
+                            .upsert({
+                                id: session.user.id,
+                                dni: parsedUser.dni,
+                                updated_at: new Date().toISOString()
+                            });
+
+                        if (error && mounted) {
+                            console.error('Error syncing profile table:', error);
+                        } else {
+                            console.log('Profile successfully synced to Supabase');
+                        }
+                    } catch (err: any) {
+                        if (mounted) console.error('Sync exception:', err.message || err);
+                    }
+                }
+            } else if (event === 'SIGNED_OUT') {
+                console.log('User signed out');
+                const updatedUser = { ...parsedUser, correo: undefined };
+                setUser(updatedUser);
+                localStorage.setItem('sociema_user', JSON.stringify(updatedUser));
+            }
+        });
+
+        return () => {
+            mounted = false;
+            subscription.unsubscribe();
+        };
     }, [router]);
 
     if (!isClient || !user) return null;
@@ -83,7 +135,6 @@ export default function DashboardPage() {
                         </button>
                         <button className="p-2 hover:bg-slate-100 rounded-full transition-colors relative text-slate-500">
                             <Bell size={20} />
-                            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                         </button>
                     </div>
                 </header>
