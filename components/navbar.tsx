@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X, HelpCircle, ShoppingBag } from "lucide-react"
+import { Menu, X, HelpCircle, ShoppingBag, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
@@ -21,7 +21,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-       <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="h-10 w-10 flex items-center justify-center">
             <Image
               src="/logo.png"
@@ -50,14 +50,19 @@ export function Navbar() {
 
         {/* Icon buttons */}
         <div className="hidden items-center gap-2 md:flex">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild title="Preguntas frecuentes">
             <Link href="/faq" aria-label="Preguntas frecuentes">
               <HelpCircle className="h-5 w-5" />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild title="Tienda de merch">
             <Link href="/merch" aria-label="Tienda de merch">
               <ShoppingBag className="h-5 w-5" />
+            </Link>
+          </Button>
+          <Button variant="ghost" size="icon" asChild title="Intranet Miembros">
+            <Link href="/auth" target="_blank" aria-label="Intranet Miembros">
+              <User className="h-5 w-5" />
             </Link>
           </Button>
         </div>
@@ -88,17 +93,25 @@ export function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2 border-t border-border pt-4">
-              <Button variant="outline" size="sm" asChild className="flex-1 bg-transparent">
-                <Link href="/faq" onClick={() => setIsOpen(false)}>
-                  <HelpCircle className="mr-2 h-4 w-4" />
-                  FAQ
-                </Link>
-              </Button>
-              <Button variant="outline" size="sm" asChild className="flex-1 bg-transparent">
-                <Link href="/merch" onClick={() => setIsOpen(false)}>
-                  <ShoppingBag className="mr-2 h-4 w-4" />
-                  Merch
+            <div className="mt-2 flex flex-col gap-2 border-t border-border pt-4">
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" asChild className="flex-1 bg-transparent">
+                  <Link href="/faq" onClick={() => setIsOpen(false)}>
+                    <HelpCircle className="mr-2 h-4 w-4" />
+                    FAQ
+                  </Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild className="flex-1 bg-transparent">
+                  <Link href="/merch" onClick={() => setIsOpen(false)}>
+                    <ShoppingBag className="mr-2 h-4 w-4" />
+                    Merch
+                  </Link>
+                </Button>
+              </div>
+              <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
+                <Link href="/auth" target="_blank" onClick={() => setIsOpen(false)}>
+                  <User className="mr-2 h-4 w-4" />
+                  Intranet Miembros
                 </Link>
               </Button>
             </div>

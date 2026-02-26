@@ -23,11 +23,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        {children}
         <Analytics />
 
         {/* Google Analytics */}
@@ -46,10 +42,10 @@ export default function RootLayout({
         </Script>
 
         {/* ENLACE DE ELFSIGHT */}
-        <Script 
-          src="https://static.elfsight.com/platform/platform.js" 
-          data-use-service-core 
-          defer 
+        <Script
+          src="https://static.elfsight.com/platform/platform.js"
+          data-use-service-core
+          defer
         />
       </body>
     </html>
